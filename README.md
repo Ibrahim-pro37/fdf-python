@@ -98,6 +98,7 @@ ruff check .
 ```
 
 Можно запускать те же инструменты через Python окружения, например `.\.venv\Scripts\python.exe -m pytest -q`.
+GitHub Actions запускает эти проверки при `push` и `pull request`.
 
 ## Лицензия
 
