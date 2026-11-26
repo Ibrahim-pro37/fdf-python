@@ -11,7 +11,7 @@ from fdf.parser import parse_map
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    """Прочитать карту и показать её размер."""
+    """Прочитать карту и открыть окно просмотра."""
     arguments = sys.argv[1:] if argv is None else argv
     if len(arguments) != 1:
         print("Использование: python main.py <файл.fdf>", file=sys.stderr)
@@ -27,7 +27,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Ошибка в карте «{path}»: {error}", file=sys.stderr)
         return 1
 
-    print(f"{height_map.width} × {height_map.height}")
+    try:
+        from fdf.app import App
+
+        App(height_map, path.name).run()
+    except ImportError:
+        print("Для просмотра карты нужен Python с поддержкой tkinter.", file=sys.stderr)
+        return 1
+    except FdfError as error:
+        print(f"Ошибка FdF: {error}", file=sys.stderr)
+        return 1
+
     return 0
 
 
